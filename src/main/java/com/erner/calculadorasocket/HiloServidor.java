@@ -15,20 +15,14 @@ public class HiloServidor extends Thread {
     private DataOutputStream dataOutput;
     private DataInputStream dataInput;
 
-    public HiloServidor(Socket socket, int idSession) {
+    //Constructor del hilo
+    public HiloServidor(Socket socket) {
         this.socket = socket;
 
+        //Se inicializan la entrada y salida de datos
         try {
             dataOutput = new DataOutputStream(socket.getOutputStream());
             dataInput = new DataInputStream(socket.getInputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void desconectar() {
-        try {
-            socket.close();
         } catch (IOException ex) {
             Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,6 +75,16 @@ public class HiloServidor extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         desconectar();
+    }
+    
+    //Función para cerrar la conexión del socket
+    public void desconectar() {
+        try {
+            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

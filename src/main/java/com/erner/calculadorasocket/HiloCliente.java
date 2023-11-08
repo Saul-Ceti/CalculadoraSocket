@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HiloCliente extends Thread {
+
     protected Socket sk;
     protected DataOutputStream dos;
     protected DataInputStream dis;
@@ -33,9 +34,9 @@ public class HiloCliente extends Thread {
             JPanel panel = new JPanel(new GridLayout(4, 4));
 
             String[] buttonLabels = {"7", "8", "9", "/",
-                                     "4", "5", "6", "*",
-                                     "1", "2", "3", "-",
-                                     "0", "C", "=", "+"};
+                "4", "5", "6", "*",
+                "1", "2", "3", "-",
+                "0", "C", "=", "+"};
 
             for (String label : buttonLabels) {
                 JButton button = new JButton(label);
@@ -44,15 +45,19 @@ public class HiloCliente extends Thread {
                         sk = new Socket("127.0.0.1", 8080);
                         dos = new DataOutputStream(sk.getOutputStream());
                         dis = new DataInputStream(sk.getInputStream());
-
+                        
+                        String result = display.getText();                        
+                        dos.writeUTF(result);
+                        
                         if (label.equals("C")) {
                             display.setText("");
-                        } else if (label.equals("=")) {
-                            String result = display.getText();
+                        } 
+                        else if (label.equals("=")) {
                             dos.writeUTF(result);
                             int respuesta = dis.readInt();
                             display.setText(String.valueOf(respuesta));
-                        } else {
+                        } 
+                        else {
                             String currentDisplay = display.getText();
                             display.setText(currentDisplay + label);
                         }

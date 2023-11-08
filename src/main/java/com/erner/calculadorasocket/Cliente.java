@@ -9,7 +9,7 @@ public class Cliente {
 
     public static void main(String[] args) {
         ArrayList<Thread> clientes = new ArrayList<Thread>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             clientes.add(new HiloCliente(i));
         }
         for (Thread thread : clientes) {
