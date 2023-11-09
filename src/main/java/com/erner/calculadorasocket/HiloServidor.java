@@ -14,10 +14,14 @@ public class HiloServidor extends Thread {
     private Socket socket;
     private DataOutputStream dataOutput;
     private DataInputStream dataInput;
+    private int num1;
+    private int num2;
 
     //Constructor del hilo
-    public HiloServidor(Socket socket) {
+    public HiloServidor(Socket socket, int num1, int num2) {
         this.socket = socket;
+        this.num1 = num1;
+        this.num2 = num2;
 
         //Se inicializan la entrada y salida de datos
         try {
@@ -40,9 +44,7 @@ public class HiloServidor extends Thread {
             Matcher matcher = pattern.matcher(accion);
 
             if (matcher.find()) {
-                int num1 = Integer.parseInt(matcher.group(1));
                 String operador = matcher.group(2);
-                int num2 = Integer.parseInt(matcher.group(3));
 
                 int resultado = 0;
                 switch (operador) {

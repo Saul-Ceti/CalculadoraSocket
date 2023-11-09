@@ -26,6 +26,7 @@ public class HiloCliente extends Thread {
             JFrame frame = new JFrame("Calculadora Cliente");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout());
+            frame.setLocationRelativeTo(null); // Centra la ventana
 
             JTextField display = new JTextField();
             display.setEditable(false);
@@ -46,20 +47,22 @@ public class HiloCliente extends Thread {
                         dos = new DataOutputStream(sk.getOutputStream());
                         dis = new DataInputStream(sk.getInputStream());
                         
-                        String result = display.getText();                        
+                        String result = display.getText();
                         dos.writeUTF(result);
                         
-                        if (label.equals("C")) {
-                            display.setText("");
-                        } 
-                        else if (label.equals("=")) {
-                            dos.writeUTF(result);
-                            int respuesta = dis.readInt();
-                            display.setText(String.valueOf(respuesta));
-                        } 
-                        else {
-                            String currentDisplay = display.getText();
-                            display.setText(currentDisplay + label);
+                        switch (label) {
+                            case "C":
+                                display.setText("");
+                                break;
+                            case "=":
+                                dos.writeUTF(result);
+                                int respuesta = dis.readInt();
+                                display.setText(String.valueOf(respuesta));
+                                break;
+                            default:
+                                String currentDisplay = display.getText();
+                                display.setText(currentDisplay + label);
+                                break;
                         }
 
                         dis.close();
@@ -76,9 +79,5 @@ public class HiloCliente extends Thread {
             frame.pack();
             frame.setVisible(true);
         });
-    }
-
-    public static void main(String[] args) {
-        new HiloCliente(1).start();
     }
 }
